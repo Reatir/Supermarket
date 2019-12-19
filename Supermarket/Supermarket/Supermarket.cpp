@@ -2,26 +2,74 @@
 //
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
+#include <stdlib.h>
 
+int ChoixQuantite();
+void AfficherPrixTotal(float Prixarticle_, int Quantite_);
 int main()
 {
     float PrixArticle;
     printf("Bonjour!\n");
     printf("Bienvenue a ConsoLand!\n");
-    printf("\nVeuillez-renseigner un prix\n");
-    int retour = scanf("%f", &PrixArticle);
-    printf("Le prix est %f", PrixArticle);
+	int choix;
+	printf("\n=== Produits ===\n\n");
+	printf("1. Poulet\n");
+	printf("2. Sel\n");
+	printf("3. Encre\n");
+	printf("4. Concombre\n");
+	int ChoixIsOK;
+	do
+	{
+		ChoixIsOK = 1;
+		printf("\nVotre choix ? ");
+
+		int retour = scanf("%d", &choix);
+		if (retour == 0)
+		{
+			exit(0);
+		}
+
+		printf("\n");
+
+		switch (choix)
+		{
+		case 1:
+			PrixArticle = 12.54;
+			printf("Le prix d'un poulet est de %.2f", PrixArticle);
+			break;
+		case 2:
+			PrixArticle = 1.59;
+			printf("Le prix du sel est de %.2f", PrixArticle);
+			break;
+		case 3:
+			PrixArticle = 16.86;
+			printf("Le prix de l'encre est de %.2f", PrixArticle);
+			break;
+		case 4:
+			PrixArticle = 0.65;
+			printf("Le prix d'un concombre est de %.2f", PrixArticle);
+			break;
+		default:
+			printf("Cette article n'existe pass");
+			ChoixIsOK = 0;
+			break;
+		}
+
+	} while (ChoixIsOK == 0);
+
+
+	printf("\n\n");
 
     return 0;
 }
 
-// Exécuter le programme : Ctrl+F5 ou menu Déboguer > Exécuter sans débogage
-// Déboguer le programme : F5 ou menu Déboguer > Démarrer le débogage
 
-// Astuces pour bien démarrer : 
-//   1. Utilisez la fenêtre Explorateur de solutions pour ajouter des fichiers et les gérer.
-//   2. Utilisez la fenêtre Team Explorer pour vous connecter au contrôle de code source.
-//   3. Utilisez la fenêtre Sortie pour voir la sortie de la génération et d'autres messages.
-//   4. Utilisez la fenêtre Liste d'erreurs pour voir les erreurs.
-//   5. Accédez à Projet > Ajouter un nouvel élément pour créer des fichiers de code, ou à Projet > Ajouter un élément existant pour ajouter des fichiers de code existants au projet.
-//   6. Pour rouvrir ce projet plus tard, accédez à Fichier > Ouvrir > Projet et sélectionnez le fichier .sln.
+int ChoixQuantite()
+{
+
+	return 0;
+}
+
+void AfficherPrixTotal(float Prixarticle_, int Quantite_)
+{
+}
