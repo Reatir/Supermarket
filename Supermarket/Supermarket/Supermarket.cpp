@@ -54,10 +54,12 @@ int main()
 			ChoixIsOK = 0;
 			break;
 		}
-
+		printf("\n");
 	} while (ChoixIsOK == 0);
 
-
+	printf("\n");
+	int quantite = ChoixQuantite();
+	AfficherPrixTotal(PrixArticle, quantite);
 	printf("\n\n");
 
     return 0;
@@ -66,10 +68,18 @@ int main()
 
 int ChoixQuantite()
 {
-
-	return 0;
+	int quantite;
+	printf("Veuillez-rentrer le nombre d'article voulu : ");
+	int retour = scanf("%d",&quantite);
+	if (retour == 0)
+	{
+		exit(0);
+	}
+	return quantite;
 }
 
 void AfficherPrixTotal(float Prixarticle_, int Quantite_)
 {
+	float PrixTotal = Prixarticle_ * Quantite_;
+	printf("Le prix total est de %.2f", PrixTotal);
 }
