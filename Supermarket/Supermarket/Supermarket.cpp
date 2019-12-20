@@ -4,92 +4,129 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int ChoixQuantite();
-float AfficherPrixTotal(float Prixarticle_, int Quantite_);
+void ChoixQuantite(int &quantite_);
+float AfficherPrixTotalArticle(float Prixarticle_, int Quantite_);
+void AfficherPrixTotal(float prixTotal_);
+void Choix(int &choix_);
+void AfficherBienvenue();
+void AfficherMenu();
+int ChoixArticle(float &PrixArticle_);
 int main()
 {
     float PrixArticle,PrixTotal = 0;
-    printf("Bonjour!\n");
-    printf("Bienvenue a ConsoLand!\n");
 	int ChoixAjoutArticle;
+	AfficherBienvenue();
 	do {
-		printf("\n=== Produits ===\n\n");
-		printf("1. Poulet\n");
-		printf("2. Sel\n");
-		printf("3. Encre\n");
-		printf("4. Concombre\n");
-		int ChoixIsOK;
-		int choixArticle;
+		int ChoixIsOK, quantite;
+		
+
+		AfficherMenu();
 		do
 		{
 			ChoixIsOK = 1;
 			printf("\nVotre choix ? ");
-			int c;
-			while ((c = getchar()) != '\n' && c != EOF) {}
-			int retour = scanf("%d", &choixArticle);
-			if (retour == 0)
-			{
-				printf("La valeur entre n'est pas bonne veuillez ressayer");
-		
-			}
-
-			printf("\n");
-
-			switch (choixArticle)
-			{
-			case 1:
-				PrixArticle = 12.54;
-				printf("Le prix d'un poulet est de %.2f", PrixArticle);
-				break;
-			case 2:
-				PrixArticle = 1.59;
-				printf("Le prix du sel est de %.2f", PrixArticle);
-				break;
-			case 3:
-				PrixArticle = 16.86;
-				printf("Le prix de l'encre est de %.2f", PrixArticle);
-				break;
-			case 4:
-				PrixArticle = 0.65;
-				printf("Le prix d'un concombre est de %.2f", PrixArticle);
-				break;
-			default:
-				printf("Cette article n'existe pass");
-				ChoixIsOK = 0;
-				break;
-			}
+			
+			ChoixIsOK = ChoixArticle(PrixArticle);
+			
 			printf("\n");
 		} while (ChoixIsOK == 0);
 
 		printf("\n");
-		int quantite = ChoixQuantite();
-		PrixTotal += AfficherPrixTotal(PrixArticle, quantite);
-		printf("\nLe prix total actuel est de %.2f",PrixTotal);
-		printf("\n\n");
-		int c;
-		while ((c = getchar()) != '\n' && c != EOF) {}
-		printf("Voulez-vous acheter un autre article? \n1.oui \n2.Non ");
-		scanf("%d", &ChoixAjoutArticle);
+
+		ChoixQuantite(quantite);
+
+		//Affichage du prix pour la quantite d'article choisi et le prix total actuel
+		PrixTotal += AfficherPrixTotalArticle(PrixArticle, quantite);
+		AfficherPrixTotal(PrixTotal);
+		
+		printf("Voulez-vous acheter un autre article? \n1.oui \n2.Non \n");
+		Choix(ChoixAjoutArticle);
 	} while (ChoixAjoutArticle == 1);
 
-	printf("Le montant total est de %.2f", PrixTotal);
+	AfficherPrixTotal(PrixTotal);
     return 0;
 }
 
-int ChoixQuantite()
+
+void ChoixQuantite(int &quantite_)
 {
-	int quantite;
 	printf("Veuillez-rentrer le nombre d'article voulu : ");
-	int retour = scanf("%d",&quantite);
-	if (retour == 0)
-	{
-		exit(0);
-	}
-	return quantite;
+	Choix(quantite_);
 }
-float AfficherPrixTotal(float Prixarticle_, int Quantite_)
+
+float AfficherPrixTotalArticle(float Prixarticle_, int Quantite_)
 {
 	float PrixTotal = Prixarticle_ * Quantite_;
-	printf("Le prix total est de %.2f", PrixTotal);
+	printf("Le prix total est de %.2f pour %d", PrixTotal, Quantite_);
 	return PrixTotal;
+}
+
+void AfficherPrixTotal(float prixTotal_)
+{
+	printf("\nLe prix total est de %.2f", prixTotal_);
+	printf("\n\n");
+}
+
+void Choix(int &choix_)
+{
+	int c;
+	int retour;
+	do
+	{
+		retour = scanf("%d", &choix_);
+		while ((c = getchar()) != '\n' && c != EOF) {}
+		if (retour == 1)
+		{
+			continue;
+		}
+		printf("La valeur entre n'est pas bonne veuillez ressayer\n");
+	} while (retour == 0);
+	printf("\n");
+
+}
+
+void AfficherBienvenue()
+{
+	printf("Bonjour!\n");
+	printf("Bienvenue a ConsoLand!\n");
+}
+
+void AfficherMenu()
+{
+	printf("\n=== Produits ===\n\n");
+	printf("1. Poulet\n");
+	printf("2. Sel\n");
+	printf("3. Encre\n");
+	printf("4. Concombre\n");
+}
+
+int ChoixArticle(float &PrixArticle_)
+{
+	int choixArticle;
+	Choix(choixArticle);
+	int  ChoixIsOK = 1;
+	switch (choixArticle)
+	{
+	case 1:
+		PrixArticle_ = 12.54;
+		printf("Le prix d'un poulet est de %.2f", PrixArticle_);
+		break;
+	case 2:
+		PrixArticle_ = 1.59;
+		printf("Le prix du sel est de %.2f", PrixArticle_);
+		break;
+	case 3:
+		PrixArticle_ = 16.86;
+		printf("Le prix de l'encre est de %.2f", PrixArticle_);
+		break;
+	case 4:
+		PrixArticle_ = 0.65;
+		printf("Le prix d'un concombre est de %.2f", PrixArticle_);
+		break;
+	default:
+		printf("Cette article n'existe pass");
+		ChoixIsOK = 0;
+		break;
+	}
+	return ChoixIsOK;
 }
