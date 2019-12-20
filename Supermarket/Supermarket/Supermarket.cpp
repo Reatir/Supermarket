@@ -3,31 +3,50 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
+struct Article
+{
+	char Nom[64];
+	float Prix;
+};
+
+struct Achat
+{
+	Article ArticleAchete;
+	int Quantite = 0;
+};
 
 void ChoixQuantite(int &quantite_, int & NombreArticles);
 float AfficherPrixTotalArticle(float Prixarticle_, int Quantite_);
 void AfficherPrixTotal(float prixTotal_,int NombreArticles_);
 void Choix(int &choix_);
 void AfficherBienvenue();
-void AfficherMenu();
-int ChoixArticle(float &PrixArticle_);
+void AfficherMenu(Article *Articles);
+int ChoixArticle(float &PrixArticle_, Article* Articles);
+Article AjoutArticle(float Prix_, const char Nom_[64]);
 int main()
 {
     float PrixArticle,PrixTotal = 0;
 	int ChoixAjoutArticle,NombreArticles=0;
-
+	Article Articles[4];
+	Articles[0] = AjoutArticle(12.56, "Poulet");
+	Articles[1] = AjoutArticle(1.85, "Sel");
+	Articles[2] = AjoutArticle(29.18, "Encre");
+	Articles[3] = AjoutArticle(0.59, "Concombre");
+	Achat Achats[256] = { 0 };
 	AfficherBienvenue();
 	do {
 		int ChoixIsOK, quantite;
 		
 
-		AfficherMenu();
+		AfficherMenu(Articles);
 		do
 		{
 			ChoixIsOK = 1;
 			printf("\nVotre choix ? ");
 			
-			ChoixIsOK = ChoixArticle(PrixArticle);
+			ChoixIsOK = ChoixArticle(PrixArticle,Articles);
 			
 			printf("\n");
 		} while (ChoixIsOK == 0);
@@ -35,7 +54,14 @@ int main()
 		printf("\n");
 
 		ChoixQuantite(quantite, NombreArticles);
-		
+		int i = 0;
+		while(Achats[i].Quantite != 0)
+		{
+			i++;
+		}
+		Achat a;
+		a.Quantite = quantite;
+		Achats[i] = a;
 		//Affichage du prix pour la quantite d'article choisi et le prix total actuel
 		PrixTotal += AfficherPrixTotalArticle(PrixArticle, quantite);
 		AfficherPrixTotal(PrixTotal, NombreArticles);
@@ -45,6 +71,15 @@ int main()
 	} while (ChoixAjoutArticle == 1);
 
 	AfficherPrixTotal(PrixTotal, NombreArticles);
+	int i = 0;
+	while (Achats[i].Quantite != 0)
+	{
+		i++;
+	}
+	for (size_t a = 0; a < i; a++)
+	{
+		printf("%d", Achats[a].Quantite);
+	}
     return 0;
 }
 
@@ -93,21 +128,32 @@ void AfficherBienvenue()
 	printf("Bienvenue a ConsoLand!\n");
 }
 
-void AfficherMenu()
+void AfficherMenu(Article* Articles)
 {
 	printf("\n=== Produits ===\n\n");
-	printf("1. Poulet\n");
-	printf("2. Sel\n");
-	printf("3. Encre\n");
-	printf("4. Concombre\n");
+	for (size_t i = 0; i < 4; i++)
+	{
+		printf("%d. %s\n",i + 1, Articles[i].Nom);
+	}
+	printf("\n");
 }
 
-int ChoixArticle(float &PrixArticle_)
+int ChoixArticle(float &PrixArticle_, Article* Articles)
 {
 	int choixArticle;
 	Choix(choixArticle);
 	int  ChoixIsOK = 1;
-	switch (choixArticle)
+	if ((choixArticle > 0) && (choixArticle < 5))
+	{
+		PrixArticle_ = Articles[choixArticle - 1].Prix;
+		printf("l'article %s vaut %.2f",Articles[choixArticle - 1].Nom, PrixArticle_);
+	}
+	else
+	{
+		printf("Cette article n'existe pas");
+		ChoixIsOK = 0;
+	}
+	/*switch (choixArticle)
 	{
 	case 1:
 		PrixArticle_ = 12.54;
@@ -129,6 +175,14 @@ int ChoixArticle(float &PrixArticle_)
 		printf("Cette article n'existe pass");
 		ChoixIsOK = 0;
 		break;
-	}
+	}*/
 	return ChoixIsOK;
+}
+
+Article AjoutArticle(float Prix_, const char Nom_[64])
+{
+	Article a;
+	strcpy(a.Nom, Nom_);
+	a.Prix = Prix_;
+	return a;
 }
