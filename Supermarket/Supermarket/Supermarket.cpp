@@ -4,9 +4,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void ChoixQuantite(int &quantite_);
+void ChoixQuantite(int &quantite_, int & NombreArticles);
 float AfficherPrixTotalArticle(float Prixarticle_, int Quantite_);
-void AfficherPrixTotal(float prixTotal_);
+void AfficherPrixTotal(float prixTotal_,int NombreArticles_);
 void Choix(int &choix_);
 void AfficherBienvenue();
 void AfficherMenu();
@@ -14,7 +14,8 @@ int ChoixArticle(float &PrixArticle_);
 int main()
 {
     float PrixArticle,PrixTotal = 0;
-	int ChoixAjoutArticle;
+	int ChoixAjoutArticle,NombreArticles=0;
+
 	AfficherBienvenue();
 	do {
 		int ChoixIsOK, quantite;
@@ -33,25 +34,26 @@ int main()
 
 		printf("\n");
 
-		ChoixQuantite(quantite);
-
+		ChoixQuantite(quantite, NombreArticles);
+		
 		//Affichage du prix pour la quantite d'article choisi et le prix total actuel
 		PrixTotal += AfficherPrixTotalArticle(PrixArticle, quantite);
-		AfficherPrixTotal(PrixTotal);
+		AfficherPrixTotal(PrixTotal, NombreArticles);
 		
 		printf("Voulez-vous acheter un autre article? \n1.oui \n2.Non \n");
 		Choix(ChoixAjoutArticle);
 	} while (ChoixAjoutArticle == 1);
 
-	AfficherPrixTotal(PrixTotal);
+	AfficherPrixTotal(PrixTotal, NombreArticles);
     return 0;
 }
 
 
-void ChoixQuantite(int &quantite_)
+void ChoixQuantite(int &quantite_,int &NombreArticles)
 {
 	printf("Veuillez-rentrer le nombre d'article voulu : ");
 	Choix(quantite_);
+	NombreArticles += quantite_;
 }
 
 float AfficherPrixTotalArticle(float Prixarticle_, int Quantite_)
@@ -61,9 +63,9 @@ float AfficherPrixTotalArticle(float Prixarticle_, int Quantite_)
 	return PrixTotal;
 }
 
-void AfficherPrixTotal(float prixTotal_)
+void AfficherPrixTotal(float prixTotal_,int NombreArticles_)
 {
-	printf("\nLe prix total est de %.2f", prixTotal_);
+	printf("\nLe prix total est de %.2f pour %d articles", prixTotal_,NombreArticles_);
 	printf("\n\n");
 }
 
